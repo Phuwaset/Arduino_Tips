@@ -63,3 +63,115 @@ void loop() {
     previousMillis = currentMillis;
   }
 }
+
+
+
+
+// analog map() function;
+const int POT_ = A0;
+const int LED_ = 8;
+void setup(){
+	Serial.begin(115200);
+  	pinMode(LED_, OUTPUT);
+}
+
+void loop() {
+	int potValue = analogRead(POT_);
+  	int brightness = map(potValue,0,1023,0,100);
+  	analogWrite(LED_, brightness);
+    Serial.print("Potentiometer: ");
+  	Serial.print(potValue);
+  	Serial.print("  ->  Brightness: ");
+  	Serial.println(brightness);
+
+  	delay(10); 
+}
+
+
+const int POT_ = A0;
+const int LED_ = 8; 
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(LED_, OUTPUT);
+}
+
+void loop() {
+  int potValue = analogRead(POT_);
+  int brightness = map(potValue, 0, 1023, 0, 100);
+
+  float voltage = potValue * (5.0 / 1023.0);
+
+  Serial.print("Potentiometer: ");
+  Serial.print(potValue);
+  Serial.print("  ->  Brightness: ");
+  Serial.print(brightness);
+  Serial.print("%  ->  Voltage: ");
+
+  Serial.print(voltage, 2); 
+  Serial.println("V");     
+
+  delay(100); 
+}
+
+
+int sensorPin = A0;
+int sensorValue = 0;
+float voltage = 0.0;
+float temperature = 0.0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  sensorValue = analogRead(sensorPin);
+  voltage = sensorValue * (5.0 / 1023.0);      // voltage = data * 5 / 1023
+  temperature = -20.0 * voltage + 100.0;       // Temp = -20 * voltage + 100
+
+  if (voltage < 1.0) {
+    Serial.println("low");
+  } else {
+    Serial.print("Voltage: ");
+    Serial.print(voltage);
+    Serial.print(" V  ");
+
+    Serial.print("Temperature: ");
+    Serial.print(temperature);
+    Serial.println(" C");
+  }
+
+  delay(500);
+}
+
+
+int sensorPin = A0;
+int sensorValue = 0;
+float voltage = 0.0;
+float temperature = 0.0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  sensorValue = analogRead(sensorPin);
+  voltage = sensorValue * (5.0 / 1023.0);        // แปลงเป็นแรงดัน
+
+  // ใช้ map() แปลงจากช่วง 0-1023 ไปเป็น 100-0 (กลับด้าน)
+  temperature = map(sensorValue, 0, 1023, 100, 0);
+
+  if (voltage < 1.0) {
+    Serial.println("low");
+  } else {
+    Serial.print("Voltage: ");
+    Serial.print(voltage);
+    Serial.print(" V  ");
+
+    Serial.print("Temperature: ");
+    Serial.print(temperature);
+    Serial.println(" C");
+  }
+
+  delay(500);
+}
